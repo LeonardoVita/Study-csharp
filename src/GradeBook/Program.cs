@@ -6,25 +6,15 @@ namespace GradeBook
     {
         static void Main(string[] args)
         {   
-            double[] numbers = new double[3];
-            numbers[0] = 12.7;
-            numbers[1] = 10.3;
-            numbers[2] = 9.6;
+            double[] numbers = new[] {12.7, 10.3, 9.6, 4.1};
 
-            var result = numbers[0];
-            result += numbers[1];
-            result += numbers[2];
-
+            double result = 0.0;
+            foreach (var item in numbers)
+            {
+                result += item;    
+            }
             Console.WriteLine(result);
-
-            if(args.Length > 0)
-            {
-                Console.WriteLine($"Hello {args[0]}!");               
-            }  
-            else
-            {
-                Console.WriteLine("Hello World!");
-            }  
+             
         }
     }
 }

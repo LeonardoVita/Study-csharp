@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
-    class  Book 
+    public class  Book 
     {
         private List<double> grades;
         private string name;
@@ -17,7 +17,7 @@ namespace GradeBook
             grades.Add(grade);
         }
 
-        public void showStatistic(){          
+        public Statistic getStatistic(){          
 
             double result = 0;
             double highGrade = double.MinValue; 
@@ -31,7 +31,9 @@ namespace GradeBook
             }
             
             result /= grades.Count;
-            Console.WriteLine($"The average is {result:n1}\nthe highgrade is {highGrade:n1}\nthe low is {lowGrade:n1}");
+
+            Statistic statistic = new Statistic(result,highGrade,lowGrade);
+            return statistic;
         }
     }
 }

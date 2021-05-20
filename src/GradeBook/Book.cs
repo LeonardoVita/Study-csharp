@@ -6,14 +6,29 @@ namespace GradeBook
     public class  Book 
     {
         private List<double> grades;
-        public string Name;
+        private string name;
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                if (!String.IsNullOrEmpty(value))
+                {                    
+                    name = value;  
+                }
+            }
+        }
+        
         
         public Book(string name){
             grades = new List<double>();
-            Name = name;
+            this.name = name;
         }
 
-        public void AddLetterGrade(char letter){
+        public void AddGrade(char letter){
             switch (letter)
             {
                 case 'a' :

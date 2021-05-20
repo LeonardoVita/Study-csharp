@@ -13,15 +13,41 @@ namespace GradeBook
             Name = name;
         }
 
-        public void addGrade(double grade){
-            grades.Add(grade);
+        public void AddLetterGrade(char letter){
+            switch (letter)
+            {
+                case 'a' :
+                    AddGrade(90.0);
+                    break;
+                case 'b' :
+                    AddGrade(80.0);
+                    break;
+                case 'c' :
+                    AddGrade(70.0);
+                    break;    
+                default:
+                    AddGrade(0);
+                    break;
+            }
         }
 
-        public Statistic getStatistic(){          
+        public void AddGrade(double grade){
+            if (grade <=100 && grade >= 0)
+            {
+                grades.Add(grade);                
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid value of {nameof(grade)}");
+            }
+        }
+
+        public Statistic GetStatistic(){          
 
             double result = 0;
             double highGrade = double.MinValue; 
             double lowGrade = double.MaxValue;
+            char letter = ' ';
 
             foreach (var item in grades)
             {
@@ -32,7 +58,26 @@ namespace GradeBook
             
             result /= grades.Count;
 
-            Statistic statistic = new Statistic(result,highGrade,lowGrade);
+            switch (result)
+            {
+                case var av when av >= 90.0:
+                    letter = 'A';
+                    break;
+                case var av when av >= 80.0:
+                    letter = 'B';
+                    break;
+                case var av when av >= 70.0:
+                    letter = 'C';
+                    break;
+                case var av when av >= 60.0:
+                    letter = 'D';
+                    break;            
+                default:
+                    letter = 'F';
+                    break;
+            }
+
+            Statistic statistic = new Statistic(result,highGrade,lowGrade,letter);
             return statistic;
         }
     }

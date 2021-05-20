@@ -43,6 +43,7 @@ namespace GradeBook
             
             book.Name = "TESTANDO";
             book.Name = "";
+            Console.WriteLine(Book.CONSTANT);
             Console.WriteLine($"For The book named { book.Name}");
             Console.WriteLine($"The lowest grade is {statistic.Low:n1}\nThe highest grade is {statistic.High:n1}\nThe Average grade is {statistic.Average:n1}");
             Console.WriteLine($"The letter is {statistic.Letter}");

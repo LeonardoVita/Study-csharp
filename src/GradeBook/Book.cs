@@ -6,14 +6,16 @@ namespace GradeBook
     public class  Book 
     {
         private List<double> grades;
-        public string Name{ get; private set; }
-       
-        
-        
+        public string Name{ get; set; }   
+        readonly string category = "Science";
+        public const string CONSTANT = "um exemplo de constante"; 
+
+
         public Book(string name){
             grades = new List<double>();
             Name = name;
         }
+       
 
         public void AddGrade(char letter){
             switch (letter)

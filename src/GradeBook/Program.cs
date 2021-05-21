@@ -6,17 +6,15 @@ namespace GradeBook
     {        
         static void Main(string[] args)
         {
-            var inMemoryBook = new InMemoryBook("Leonardo");
-            inMemoryBook.GradeAdded += OnGradeAdded;
+            IBook book = new DiskBook("Leonardo");
+            book.GradeAdded += OnGradeAdded;
 
-            EnterGrades(inMemoryBook);
+            EnterGrades(book);
 
-            Statistic statistic = inMemoryBook.GetStatistic();
-
-            inMemoryBook.Name = "TESTANDO";
-            inMemoryBook.Name = "";
+            Statistic statistic = book.GetStatistic();
+            
             Console.WriteLine(InMemoryBook.CONSTANT);
-            Console.WriteLine($"For The book named { inMemoryBook.Name}");
+            Console.WriteLine($"For The book named { book.Name}");
             Console.WriteLine($"The lowest grade is {statistic.Low:n1}\nThe highest grade is {statistic.High:n1}\nThe Average grade is {statistic.Average:n1}");
             Console.WriteLine($"The letter is {statistic.Letter}");
 
@@ -62,5 +60,5 @@ namespace GradeBook
     }
 }
 
-// dotnet run --project src/GradeBook/GradeBook.csproj    -- EXECUTE EM POWERSHELL
+// dotnet run --project src/GradeBook/GradeBook.csproj    -- EXECUTE IN POWERSHELL
 // dotnet teste                                           -- EXECUTE TESTE

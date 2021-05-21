@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace GradeBook
 {
@@ -11,9 +12,7 @@ namespace GradeBook
         {
             Name = name;
         }
-
         public string Name { get; set;}
-
     }
 
     public interface IBook
@@ -29,11 +28,54 @@ namespace GradeBook
         protected Book(string name) : base(name)
         {
         }
-        public virtual event GradeAddedDelegate GradeAdded;
+        public abstract event GradeAddedDelegate GradeAdded;
         public abstract void AddGrade(double grade);
-        public virtual Statistic GetStatistic()
+        public abstract Statistic GetStatistic();
+    }
+
+    public class DiskBook : Book
+    {
+        public DiskBook(string name) : base(name)
         {
-            throw new NotImplementedException();
+        }
+
+        public override event GradeAddedDelegate GradeAdded;
+
+        public override void AddGrade(double grade)
+        {
+            if (grade <=100 && grade >= 0)
+            {
+                using(var writer = File.AppendText($"{Name}.txt"))
+                {
+                    writer.WriteLine(grade);
+                    if (GradeAdded != null)
+                    {
+                        GradeAdded(this, new EventArgs());
+                    }
+                }             
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid value of {nameof(grade)}");
+            }           
+        }
+
+        public override Statistic GetStatistic()
+        {
+            var result = new Statistic();
+
+            using(var reader = File.OpenText($"{Name}.txt"))
+            {
+                var line = reader.ReadLine();   
+                while(line != null)
+                {
+                    var number = double.Parse(line);
+                    result.Add(number);
+                    line = reader.ReadLine();
+                }
+            }
+
+            return result;
         }
     }
 
@@ -83,40 +125,13 @@ namespace GradeBook
         }
         public override Statistic GetStatistic(){          
 
-            double result = 0;
-            double highGrade = double.MinValue; 
-            double lowGrade = double.MaxValue;
-            char letter = ' ';
+            var statistic = new Statistic();
 
             foreach (var item in grades)
             {
-                highGrade = Math.Max(item,highGrade);
-                lowGrade = Math.Min(item,lowGrade);
-                result += item;    
-            }
-            
-            result /= grades.Count;
-
-            switch (result)
-            {
-                case var av when av >= 90.0:
-                    letter = 'A';
-                    break;
-                case var av when av >= 80.0:
-                    letter = 'B';
-                    break;
-                case var av when av >= 70.0:
-                    letter = 'C';
-                    break;
-                case var av when av >= 60.0:
-                    letter = 'D';
-                    break;            
-                default:
-                    letter = 'F';
-                    break;
-            }
-
-            Statistic statistic = new Statistic(result,highGrade,lowGrade,letter);
+                statistic.Add(item);                  
+            } 
+                      
             return statistic;
         }
     }

@@ -17,7 +17,16 @@ namespace GradeBook
         
     }
 
-    public class  Book : NamedObject
+    public abstract class Book : NamedObject
+    {
+        protected Book(string name) : base(name)
+        {
+        }
+
+        public abstract void AddGrade(double grade);
+    }
+
+    public class  InMemoryBook : Book 
     {
         readonly string category = "Science";
         public const string CONSTANT = "um exemplo de constante";  
@@ -25,7 +34,7 @@ namespace GradeBook
         private List<double> grades;
 
 
-        public Book(string name) : base( name )
+        public InMemoryBook(string name) : base( name )
         {
             grades = new List<double>();
             Name = name;
@@ -48,7 +57,7 @@ namespace GradeBook
             }
         }
 
-        public void AddGrade(double grade){
+        public override void AddGrade(double grade){
             if (grade <=100 && grade >= 0)
             {
                 grades.Add(grade);  

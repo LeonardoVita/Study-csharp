@@ -5,49 +5,54 @@ namespace GradeBook
     class Program
     {        
         static void Main(string[] args)
-        {   
-            var book = new Book("Leonardo");
-            book.GradeAdded += OnGradeAdded;            
+        {
+            var inMemoryBook = new InMemoryBook("Leonardo");
+            inMemoryBook.GradeAdded += OnGradeAdded;
 
+            EnterGrades(inMemoryBook);
+
+            Statistic statistic = inMemoryBook.GetStatistic();
+
+            inMemoryBook.Name = "TESTANDO";
+            inMemoryBook.Name = "";
+            Console.WriteLine(InMemoryBook.CONSTANT);
+            Console.WriteLine($"For The book named { inMemoryBook.Name}");
+            Console.WriteLine($"The lowest grade is {statistic.Low:n1}\nThe highest grade is {statistic.High:n1}\nThe Average grade is {statistic.Average:n1}");
+            Console.WriteLine($"The letter is {statistic.Letter}");
+
+        }
+
+        private static void EnterGrades(Book book)
+        {
             while (true)
             {
-                Console.WriteLine("Enter a grade or 'q' to quit");               
+                Console.WriteLine("Enter a grade or 'q' to quit");
                 var input = Console.ReadLine();
 
                 if (input == "q")
-                {                    
-                    break;    
+                {
+                    break;
                 }
-                
+
                 try
                 {
                     var grade = double.Parse(input);
-                    book.AddGrade(grade);         
+                    book.AddGrade(grade);
                 }
                 catch (ArgumentException ex)
-                {                    
-                    Console.WriteLine(ex.Message);                    
+                {
+                    Console.WriteLine(ex.Message);
                 }
                 catch (FormatException ex)
-                {                    
+                {
                     Console.WriteLine(ex.Message);
                 }
                 finally
                 {
                     Console.WriteLine("**");
                 }
-                              
-            }
 
-            Statistic statistic = book.GetStatistic();            
-            
-            book.Name = "TESTANDO";
-            book.Name = "";
-            Console.WriteLine(Book.CONSTANT);
-            Console.WriteLine($"For The book named { book.Name}");
-            Console.WriteLine($"The lowest grade is {statistic.Low:n1}\nThe highest grade is {statistic.High:n1}\nThe Average grade is {statistic.Average:n1}");
-            Console.WriteLine($"The letter is {statistic.Letter}");
-             
+            }
         }
 
         static void OnGradeAdded(object sender, EventArgs a)

@@ -14,23 +14,34 @@ namespace GradeBook
 
         public string Name { get; set;}
 
-        
     }
 
-    public abstract class Book : NamedObject
+    public interface IBook
+    {
+        void AddGrade(double grade);
+        Statistic GetStatistic();
+        string Name { get; }
+        event GradeAddedDelegate GradeAdded;
+    }
+
+    public abstract class Book : NamedObject, IBook
     {
         protected Book(string name) : base(name)
         {
         }
-
+        public virtual event GradeAddedDelegate GradeAdded;
         public abstract void AddGrade(double grade);
+        public virtual Statistic GetStatistic()
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    public class  InMemoryBook : Book 
+    public class  InMemoryBook : Book
     {
         readonly string category = "Science";
         public const string CONSTANT = "um exemplo de constante";  
-        public event GradeAddedDelegate GradeAdded;
+        public override event GradeAddedDelegate GradeAdded;
         private List<double> grades;
 
 
@@ -56,7 +67,6 @@ namespace GradeBook
                     break;
             }
         }
-
         public override void AddGrade(double grade){
             if (grade <=100 && grade >= 0)
             {
@@ -71,7 +81,7 @@ namespace GradeBook
                 throw new ArgumentException($"Invalid value of {nameof(grade)}");
             }
         }
-        public Statistic GetStatistic(){          
+        public override Statistic GetStatistic(){          
 
             double result = 0;
             double highGrade = double.MinValue; 

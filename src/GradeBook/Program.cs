@@ -8,9 +8,6 @@ namespace GradeBook
         {   
             var book = new Book("Leonardo");
             book.GradeAdded += OnGradeAdded;
-            book.GradeAdded += OnGradeAdded;
-            book.GradeAdded -= OnGradeAdded;
-            book.GradeAdded += OnGradeAdded;
 
             while (true)
             {
@@ -59,3 +56,6 @@ namespace GradeBook
         }
     }
 }
+
+// dotnet run --project src/GradeBook/GradeBook.csproj    -- EXECUTE EM POWERSHELL
+// dotnet teste                                           -- EXECUTE TESTE

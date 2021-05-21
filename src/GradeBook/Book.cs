@@ -5,20 +5,23 @@ namespace GradeBook
 {
     public delegate void GradeAddedDelegate(object sender, EventArgs args);
 
-    public class  Book 
+    public class NamedObject
     {
-        private List<double> grades;
-        public string Name{ get; set; }   
+        public string Name { get; set;}
+    }
+
+    public class  Book : NamedObject
+    {
         readonly string category = "Science";
-        public const string CONSTANT = "um exemplo de constante"; 
+        public const string CONSTANT = "um exemplo de constante";  
+        public event GradeAddedDelegate GradeAdded;
+        private List<double> grades;
 
 
         public Book(string name){
             grades = new List<double>();
             Name = name;
         }
-       
-
         public void AddGrade(char letter){
             switch (letter)
             {
@@ -51,9 +54,6 @@ namespace GradeBook
                 throw new ArgumentException($"Invalid value of {nameof(grade)}");
             }
         }
-
-        public event GradeAddedDelegate GradeAdded;
-
         public Statistic GetStatistic(){          
 
             double result = 0;

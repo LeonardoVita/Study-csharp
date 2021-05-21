@@ -7,7 +7,7 @@ namespace GradeBook
         static void Main(string[] args)
         {   
             var book = new Book("Leonardo");
-            book.GradeAdded += OnGradeAdded;
+            book.GradeAdded += OnGradeAdded;            
 
             while (true)
             {
